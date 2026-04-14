@@ -3,7 +3,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
     Name = "Zoo Premium Hub",
-    LoadingTitle = "Bypassing Regional...",
+    LoadingTitle = "Updating Shop Items...",
     LoadingSubtitle = "by Tegar",
     ConfigurationSaving = {Enabled = false}
 })
@@ -12,55 +12,81 @@ local MainTab = Window:CreateTab("Shop", nil)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ProductBuyRF = ReplicatedStorage:WaitForChild("Remote"):WaitForChild("ProductBuyRF")
 
-MainTab:CreateSection("Premium Eggs (Regional Bypass Attempt)")
+-- Fungsi Helper untuk memanggil Remote (Biar Kode Gak Kepanjangan)
+local function buyItem(itemName)
+    local args = {
+        itemName, -- Nama item (misal: "CelesteEgg_x10")
+        true,     -- Bypass flag
+        "ID"      -- Regional ID
+    }
+    local success, err = pcall(function()
+        ProductBuyRF:InvokeServer(unpack(args))
+    end)
+    if success then
+        Rayfield:Notify({Title = "Sent!", Content = "Request " .. itemName .. " dikirim.", Duration = 2})
+    else
+        warn("Gagal membeli " .. itemName .. ": " .. tostring(err))
+    end
+end
 
--- 🐳 Tombol Flower Whale Egg (NEW)
+-------------------------------------------------------
+-- 🥚 Section: Premium Eggs x10
+-------------------------------------------------------
+MainTab:CreateSection("Premium Eggs (All x10)")
+
+-- 1. Celeste Egg (Sudah diubah ke x10)
+MainTab:CreateButton({
+    Name = "Buy Celeste Egg x10",
+    Callback = function() buyItem("CelesteEgg_x10") end,
+})
+
+-- 2. Flower Whale Egg x10
 MainTab:CreateButton({
     Name = "Buy Flower Whale Egg x10",
-    Callback = function()
-        local args = {
-            "FlowerWhaleEgg_x10", -- Pastikan penamaan string sudah benar
-            true,                -- Bypass flag
-            "ID"                 -- Regional ID
-        }
-        
-        local success, err = pcall(function()
-            ProductBuyRF:InvokeServer(unpack(args))
-        end)
-        
-        if success then
-            Rayfield:Notify({Title = "Success!", Content = "Request Flower Whale dikirim.", Duration = 3})
-        else
-            warn(err)
-        end
-    end,
+    Callback = function() buyItem("FlowerWhaleEgg_x10") end,
 })
 
--- 🥚 Tombol Celeste
+-- 3. Princess Egg x10
 MainTab:CreateButton({
-    Name = "Buy Celeste Egg (Try Regional)",
-    Callback = function()
-        local args = { "CelesteEgg_x3", true, "ID" }
-        pcall(function() ProductBuyRF:InvokeServer(unpack(args)) end)
-        Rayfield:Notify({Title = "Sent!", Content = "Cek pop-up Celeste!", Duration = 3})
-    end,
+    Name = "Buy Princess Egg x10",
+    Callback = function() buyItem("PrincessEgg_x10") end,
 })
 
--- 👸 Tombol Sirius/Princess
+-- 4. Bumblebee Egg x10
 MainTab:CreateButton({
-    Name = "Buy Sirius Egg x10",
-    Callback = function()
-        local args = { "SiriusEgg_x10", true, "ID" }
-        pcall(function() ProductBuyRF:InvokeServer(unpack(args)) end)
-        Rayfield:Notify({Title = "Sent!", Content = "Cek pop-up Sirius!", Duration = 3})
-    end,
+    Name = "Buy Bumblebee Egg x10",
+    Callback = function() buyItem("BumblebeeEgg_x10") end,
 })
 
-MainTab:CreateSection("Catatan")
-MainTab:CreateParagraph("Tentang Harga", "Jika harga tetap mahal (Global), berarti server game ini tidak memproses argumen region dari luar. Karena Delta memblokir fungsi 'Prompt' (Vulnerable), kita sangat bergantung pada cara server game menangani Remote ini.")
+-- 5. Fiery Dragon Egg x10
+MainTab:CreateButton({
+    Name = "Buy Fiery Dragon Egg x10",
+    Callback = function() buyItem("FieryDragonEgg_x10") end,
+})
 
+-- 6. Ancient Egg x10
+MainTab:CreateButton({
+    Name = "Buy Ancient Egg x10",
+    Callback = function() buyItem("AncientEgg_x10") end,
+})
+
+-- 7. Winged Egg x10
+MainTab:CreateButton({
+    Name = "Buy Winged Egg x10",
+    Callback = function() buyItem("WingedEgg_x10") end,
+})
+
+-- 8. Sea Dragon Egg x10
+MainTab:CreateButton({
+    Name = "Buy Sea Dragon Egg x10",
+    Callback = function() buyItem("SeaDragonEgg_x10") end,
+})
+
+-------------------------------------------------------
+-- 🎉 Startup Notification
+-------------------------------------------------------
 Rayfield:Notify({
-    Title = "Script Updated",
-    Content = "Flower Whale Egg telah ditambahkan!",
+    Title = "Script Updated!",
+    Content = "Semua Egg x10 berhasil ditambahkan.",
     Duration = 5
 })
