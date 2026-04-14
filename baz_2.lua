@@ -43,19 +43,19 @@ MainTab:CreateButton({
 -- 2. Fly Egg (Ganti dari Winged Egg)
 MainTab:CreateButton({
     Name = "Buy Fly Egg x10",
-    Callback = function() buyItem("flyegg_x10") end,
+    Callback = function() buyItem("FlyEgg_x10") end,
 })
 
 -- 3. Pink Unicorn Egg (Ganti dari Princess Egg)
 MainTab:CreateButton({
     Name = "Buy Pink Unicorn Egg x10",
-    Callback = function() buyItem("pinkunicornegg_x10") end,
+    Callback = function() buyItem("PinkUnicornEgg_x10") end,
 })
 
 -- 4. Shadow King Egg (NEW)
 MainTab:CreateButton({
     Name = "Buy Shadow King Egg x10",
-    Callback = function() buyItem("shadowkingegg_x10") end,
+    Callback = function() buyItem("ShadowKingEgg_x10") end,
 })
 
 -- 5. Bumblebee Egg
