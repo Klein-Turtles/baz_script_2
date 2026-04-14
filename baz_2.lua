@@ -1,57 +1,50 @@
 -- 🧩 Load Rayfield UI
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
--- 🪟 Buat Window
 local Window = Rayfield:CreateWindow({
-    Name = "Zoo Fix Regional",
-    LoadingTitle = "Fixing UI Trigger...",
+    Name = "Zoo Final Fix",
+    LoadingTitle = "Bypassing Vulnerable Function...",
     LoadingSubtitle = "by Tegar",
     ConfigurationSaving = {Enabled = false}
 })
 
-local MainTab = Window:CreateTab("Shop Fix", nil)
-local MarketplaceService = game:GetService("MarketplaceService")
-local player = game:GetService("Players").LocalPlayer
+local MainTab = Window:CreateTab("Shop", nil)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ProductBuyRF = ReplicatedStorage:WaitForChild("Remote"):WaitForChild("ProductBuyRF")
 
-MainTab:CreateSection("Trigger Pembelian")
+MainTab:CreateSection("Beli via Remote (Regional Bypass)")
 
--- FUNGSI PEMBELIAN (DIBERSIHKAN)
-local function panggilUI(id, tipe)
-    local success, err = pcall(function()
-        if tipe == "Product" then
-            MarketplaceService:PromptProductPurchase(player, id)
+-- Tombol Celeste
+MainTab:CreateButton({
+    Name = "Buy Celeste Egg (Try Regional)",
+    Callback = function()
+        local args = {
+            "CelesteEgg_x3", -- Nama item
+            true,            -- Argumen bypass 1
+            "ID"             -- Argumen region Indonesia
+        }
+        
+        local success, err = pcall(function()
+            -- Kita pakai unpack(args) sesuai permintaanmu tadi
+            ProductBuyRF:InvokeServer(unpack(args))
+        end)
+        
+        if success then
+            Rayfield:Notify({Title = "Sent!", Content = "Cek pop-up yang muncul, moga dapet IDR!", Duration = 3})
         else
-            MarketplaceService:PromptGamePassPurchase(player, id)
+            warn("Gagal: " .. tostring(err))
         end
-    end)
-    
-    if not success then
-        warn("GAGAL MUNCULIN UI: " .. tostring(err))
-        Rayfield:Notify({
-            Title = "Error Muncul!",
-            Content = "Cek F9. Biasanya 'ThirdPartySales' dimatikan game ini.",
-            Duration = 5
-        })
-    else
-        print("Request dikirim untuk ID: " .. id)
-    end
-end
-
--- TOMBOL DEVELOPER PRODUCT (CELESTE)
-MainTab:CreateButton({
-    Name = "Panggil UI Celeste (3432069516)",
-    Callback = function()
-        panggilUI(3432069516, "Product")
     end,
 })
 
--- TOMBOL GAMEPASS
+-- Tombol Sirius/Princess
 MainTab:CreateButton({
-    Name = "Panggil UI Gamepass (8066283370)",
+    Name = "Buy Sirius Egg x10",
     Callback = function()
-        panggilUI(8066283370, "Pass")
+        local args = { "SiriusEgg_x10", true, "ID" }
+        pcall(function() ProductBuyRF:InvokeServer(unpack(args)) end)
     end,
 })
 
-MainTab:CreateSection("Troubleshoot")
-MainTab:CreateParagraph("PENTING", "Kalau tetep nggak muncul, buka Console (F9). Kalau ada tulisan 'AllowThirdPartySales has been disabled', berarti game ini mengunci pembelian manual. Solusinya harus pakai InvokeServer (tapi harga jadi Global).")
+MainTab:CreateSection("Info Error")
+MainTab:CreateParagraph("Kenapa Pakai Ini?", "Executor kamu (Delta) memblokir fungsi 'Prompt' (Vulnerable), jadi kita harus lewat Remote Game lagi. Semoga server game-nya pintar baca region kamu.")
