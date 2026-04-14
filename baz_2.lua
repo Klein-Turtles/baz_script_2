@@ -3,7 +3,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
     Name = "Zoo Premium Hub",
-    LoadingTitle = "Updating Shop Items...",
+    LoadingTitle = "Updating Database...",
     LoadingSubtitle = "by Tegar",
     ConfigurationSaving = {Enabled = false}
 })
@@ -12,12 +12,12 @@ local MainTab = Window:CreateTab("Shop", nil)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ProductBuyRF = ReplicatedStorage:WaitForChild("Remote"):WaitForChild("ProductBuyRF")
 
--- Fungsi Helper untuk memanggil Remote (Biar Kode Gak Kepanjangan)
+-- Fungsi Helper untuk memanggil Remote
 local function buyItem(itemName)
     local args = {
-        itemName, -- Nama item (misal: "CelesteEgg_x10")
-        true,     -- Bypass flag
-        "ID"      -- Regional ID
+        itemName, 
+        true,     
+        "ID"      
     }
     local success, err = pcall(function()
         ProductBuyRF:InvokeServer(unpack(args))
@@ -30,63 +30,69 @@ local function buyItem(itemName)
 end
 
 -------------------------------------------------------
--- 🥚 Section: Premium Eggs x10
+-- 🥚 Section: Premium Eggs x10 (Updated Names)
 -------------------------------------------------------
 MainTab:CreateSection("Premium Eggs (All x10)")
 
--- 1. Celeste Egg (Sudah diubah ke x10)
+-- 1. Celeste Egg
 MainTab:CreateButton({
     Name = "Buy Celeste Egg x10",
     Callback = function() buyItem("CelesteEgg_x10") end,
 })
 
--- 2. Flower Whale Egg x10
+-- 2. Fly Egg (Ganti dari Winged Egg)
 MainTab:CreateButton({
-    Name = "Buy Flower Whale Egg x10",
-    Callback = function() buyItem("FlowerWhaleEgg_x10") end,
+    Name = "Buy Fly Egg x10",
+    Callback = function() buyItem("flyegg_x10") end,
 })
 
--- 3. Princess Egg x10
+-- 3. Pink Unicorn Egg (Ganti dari Princess Egg)
 MainTab:CreateButton({
-    Name = "Buy Princess Egg x10",
-    Callback = function() buyItem("PrincessEgg_x10") end,
+    Name = "Buy Pink Unicorn Egg x10",
+    Callback = function() buyItem("pinkunicornegg_x10") end,
 })
 
--- 4. Bumblebee Egg x10
+-- 4. Shadow King Egg (NEW)
+MainTab:CreateButton({
+    Name = "Buy Shadow King Egg x10",
+    Callback = function() buyItem("shadowkingegg_x10") end,
+})
+
+-- 5. Bumblebee Egg
 MainTab:CreateButton({
     Name = "Buy Bumblebee Egg x10",
     Callback = function() buyItem("BumblebeeEgg_x10") end,
 })
 
--- 5. Fiery Dragon Egg x10
+-- 6. Fiery Dragon Egg
 MainTab:CreateButton({
     Name = "Buy Fiery Dragon Egg x10",
     Callback = function() buyItem("FieryDragonEgg_x10") end,
 })
 
--- 6. Ancient Egg x10
+-- 7. Ancient Egg
 MainTab:CreateButton({
     Name = "Buy Ancient Egg x10",
     Callback = function() buyItem("AncientEgg_x10") end,
 })
 
--- 7. Winged Egg x10
-MainTab:CreateButton({
-    Name = "Buy Winged Egg x10",
-    Callback = function() buyItem("WingedEgg_x10") end,
-})
-
--- 8. Sea Dragon Egg x10
+-- 8. Sea Dragon Egg
 MainTab:CreateButton({
     Name = "Buy Sea Dragon Egg x10",
     Callback = function() buyItem("SeaDragonEgg_x10") end,
 })
 
+-- 9. Flower Whale Egg
+MainTab:CreateButton({
+    Name = "Buy Flower Whale Egg x10",
+    Callback = function() buyItem("FlowerWhaleEgg_x10") end,
+})
+
 -------------------------------------------------------
--- 🎉 Startup Notification
+-- 🎉 Notifikasi
 -------------------------------------------------------
 Rayfield:Notify({
-    Title = "Script Updated!",
-    Content = "Semua Egg x10 berhasil ditambahkan.",
+    Title = "Database Updated",
+    Content = "Winged -> Fly, Princess -> Pink Unicorn. Shadow King added!",
     Duration = 5
 })
