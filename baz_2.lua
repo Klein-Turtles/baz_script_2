@@ -3,43 +3,55 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- 🪟 Buat Window
 local Window = Rayfield:CreateWindow({
-    Name = "Regional Price UI",
-    LoadingTitle = "Memicu UI Roblox...",
+    Name = "Zoo Fix Regional",
+    LoadingTitle = "Fixing UI Trigger...",
     LoadingSubtitle = "by Tegar",
     ConfigurationSaving = {Enabled = false}
 })
 
--- 📑 Tab Utama
-local MainTab = Window:CreateTab("Buy Menu", nil)
+local MainTab = Window:CreateTab("Shop Fix", nil)
 local MarketplaceService = game:GetService("MarketplaceService")
-local player = game.Players.LocalPlayer
+local player = game:GetService("Players").LocalPlayer
 
-MainTab:CreateSection("Klik untuk Munculin UI Roblox")
+MainTab:CreateSection("Trigger Pembelian")
 
--- 🥚 TOMBOL CELESTE (DEVELOPER PRODUCT)
+-- FUNGSI PEMBELIAN (DIBERSIHKAN)
+local function panggilUI(id, tipe)
+    local success, err = pcall(function()
+        if tipe == "Product" then
+            MarketplaceService:PromptProductPurchase(player, id)
+        else
+            MarketplaceService:PromptGamePassPurchase(player, id)
+        end
+    end)
+    
+    if not success then
+        warn("GAGAL MUNCULIN UI: " .. tostring(err))
+        Rayfield:Notify({
+            Title = "Error Muncul!",
+            Content = "Cek F9. Biasanya 'ThirdPartySales' dimatikan game ini.",
+            Duration = 5
+        })
+    else
+        print("Request dikirim untuk ID: " .. id)
+    end
+end
+
+-- TOMBOL DEVELOPER PRODUCT (CELESTE)
 MainTab:CreateButton({
-    Name = "Panggil UI Celeste (ID: 3432069516)",
+    Name = "Panggil UI Celeste (3432069516)",
     Callback = function()
-        -- Fungsi ini KERJANYA cuma buat manggil pop-up konfirmasi Roblox
-        -- Karena dipanggil lewat Client, harusnya harga Regional IDR muncul
-        MarketplaceService:PromptProductPurchase(player, 3432069516)
+        panggilUI(3432069516, "Product")
     end,
 })
 
--- 🎫 TOMBOL GAMEPASS
+-- TOMBOL GAMEPASS
 MainTab:CreateButton({
-    Name = "Panggil UI Gamepass (ID: 8066283370)",
+    Name = "Panggil UI Gamepass (8066283370)",
     Callback = function()
-        -- Manggil jendela konfirmasi buat Gamepass
-        MarketplaceService:PromptGamePassPurchase(player, 8066283370)
+        panggilUI(8066283370, "Pass")
     end,
 })
 
-MainTab:CreateSection("Info")
-MainTab:CreateParagraph("Catatan", "Setelah klik tombol, tunggu 1-3 detik sampai jendela konfirmasi biru asli dari Roblox muncul di layar kamu.")
-
-Rayfield:Notify({
-    Title = "Ready!",
-    Content = "Silakan klik tombol buat munculin UI Roblox.",
-    Duration = 5
-})
+MainTab:CreateSection("Troubleshoot")
+MainTab:CreateParagraph("PENTING", "Kalau tetep nggak muncul, buka Console (F9). Kalau ada tulisan 'AllowThirdPartySales has been disabled', berarti game ini mengunci pembelian manual. Solusinya harus pakai InvokeServer (tapi harga jadi Global).")
